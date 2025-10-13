@@ -4,7 +4,7 @@ from tempfile import template
 import uvicorn
 from schemas import UserCreate, UserLogin
 from crud import UserCRUD
-from fastapi import FastAPI, Form, HTTPException, status
+from fastapi import FastAPI, Form, HTTPException, status, requests
 from fastapi.responses import RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.params import Depends
@@ -13,10 +13,12 @@ from sqlalchemy.orm import Session
 from sqlalchemy import text
 from pydantic import ValidationError
 
+from jose import jwt, JWTError
+
 
 from database import engine, get_db
 from auth import create_access_token, decode_token
-from config import  ACCESS_TOKEN_EXPIRE_MINUTES
+from config import  ACCESS_TOKEN_EXPIRE_MINUTES, SECRET_KEY, ALGORITHM
 from models import Base
 
 # 🚀 Создаем таблицы в БД
@@ -37,7 +39,7 @@ async def register_page(request: Request):
     return template.TemplateResponse("register.html", {"request": request})
 
 @app.post("/register")
-async def register_comand(request: Request, username: str = Form(...), email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
+async def register_comand(username: str = Form(...), email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
     try:
         user_data = UserCreate(username=username, email=email, password=password) #Валидация данных
     except Exception as e:
@@ -48,7 +50,8 @@ async def register_comand(request: Request, username: str = Form(...), email: st
     if not new_user:
         print("User already exists")
 
-    return JSONResponse({"User created successfully": "1111"})
+    #return JSONResponse({"User created successfully": "1111"})
+    return RedirectResponse(url="/login", status_code=303)
 
 
 # Веб-интерфейс
@@ -57,7 +60,7 @@ async def login_page(request: Request):
     return template.TemplateResponse("login.html", {"request": request})
 
 @app.post("/login")
-async def login_command(request: Request, email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db) ):
+async def login_command(email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db) ):
     try:
         login_data = UserLogin(email=email, password=password) #Валидация данных
     except Exception as e:
@@ -71,15 +74,38 @@ async def login_command(request: Request, email: str = Form(...), password: str 
     # Создаем токен
     access_token = create_access_token(data={"sub": user.username})
 
-    redirect = RedirectResponse(url="/user_page", status_code=303)
+    redirect = RedirectResponse(url="/login", status_code=303)
     redirect.set_cookie(key="access_token", value=access_token, httponly=True, max_age= ACCESS_TOKEN_EXPIRE_MINUTES * 60)
 
-    return JSONResponse({"username" : user.username, "email": user.email, "access_token": access_token})
-    #return redirect
+    #return JSONResponse({"username" : user.username, "email": user.email, "access_token": access_token})
+    return redirect
 
 
 
 # Проверки
+@app.get("/get_user_data")
+async def get_current_user(request: Request, db: Session = Depends(get_db)):
+
+    access_token = request.cookies.get("access_token") # Достаем токен из кук
+
+    if not access_token:
+        return JSONResponse({"error": "No access token provided"})
+
+    try:
+        username = decode_token(access_token)
+    except Exception as e:
+        return JSONResponse({"error": str(e)})
+
+    return username
+
+
+@app.get("/check_admin")
+async def check_is_admin(db: Session = Depends(get_db), username: str = Depends(get_current_user)):
+    user_status = UserCRUD.check_admin_status(db, username)
+    if user_status:
+        return {"status": "admin"}
+    else:
+        return {"status": "user"}
 
 
 

@@ -26,3 +26,12 @@ class UserCRUD:
             return user
         else:
             return None
+
+    @staticmethod
+    def check_admin_status(db: Session, username: str):
+        user = db.query(User).filter(User.username == username).first()
+        if user.is_admin:
+            return True
+        else:
+            return False
+
