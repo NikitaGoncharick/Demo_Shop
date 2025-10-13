@@ -5,7 +5,6 @@ from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
 from fastapi.params import Depends
 from fastapi import Request
-
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 
@@ -27,11 +26,13 @@ async def root(request: Request):
 
 
 
+
+
 if __name__ == "__main__":
     try:
         with engine.connect() as connection:
             result = connection.execute(text("SELECT version();"))
-            print("✅ Подключение успешно!")
+            print("✅ Подключение установлено")
             print("🧩 Версия PostgreSQL:", result.scalar())
     except Exception as e:
         print(f"Error connecting to database: {e}")
