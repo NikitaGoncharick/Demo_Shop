@@ -83,30 +83,33 @@ async def login_command(email: str = Form(...), password: str = Form(...), db: S
 
 
 # Проверки
-@app.get("/get_user_data")
+# ✅ Зависимость для получения текущего пользователя
 async def get_current_user(request: Request, db: Session = Depends(get_db)):
 
     access_token = request.cookies.get("access_token") # Достаем токен из кук
-
     if not access_token:
-        return JSONResponse({"error": "No access token provided"})
+        raise HTTPException(status_code=401, detail="Not authenticated")  # ✅ Только исключения
 
     try:
         username = decode_token(access_token)
-    except Exception as e:
-        return JSONResponse({"error": str(e)})
+        return username
+    except Exception:
+        raise HTTPException(status_code=401, detail="Invalid Operation")
 
+
+# ✅ Зависимость для проверки админа
+async def require_admin(username: str = Depends(get_current_user), db: Session = Depends(get_db)):
+
+    admin_status = UserCRUD.check_admin_status(db, username)
+    if not admin_status:
+        raise HTTPException(status_code=403, detail="No admin permission ")
     return username
 
 
-@app.get("/check_admin")
-async def check_is_admin(db: Session = Depends(get_db), username: str = Depends(get_current_user)):
-    user_status = UserCRUD.check_admin_status(db, username)
-    if user_status:
-        return {"status": "admin"}
-    else:
-        return {"status": "user"}
-
+# Администрация, защищенные эндпоинты
+@app.get("/admin/dashboard")
+async def admin_dashboard(request: Request, admin_user: str = Depends(require_admin)):
+        return template.TemplateResponse("admin_dashboard.html", {"request": request})
 
 
 
