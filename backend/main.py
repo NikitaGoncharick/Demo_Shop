@@ -1,19 +1,22 @@
+from os import access
 from tempfile import template
 
 import uvicorn
-from starlette.responses import HTMLResponse, JSONResponse
-
 from schemas import UserCreate, UserLogin
 from crud import UserCRUD
-from fastapi import FastAPI, Form
+from fastapi import FastAPI, Form, HTTPException, status
+from fastapi.responses import RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.params import Depends
 from fastapi import Request
 from sqlalchemy.orm import Session
 from sqlalchemy import text
+from pydantic import ValidationError
 
 
 from database import engine, get_db
+from auth import create_access_token, decode_token
+from config import  ACCESS_TOKEN_EXPIRE_MINUTES
 from models import Base
 
 # 🚀 Создаем таблицы в БД
@@ -23,11 +26,10 @@ app = FastAPI()
 
 template = Jinja2Templates(directory="../frontend/templates")
 
+
 @app.get("/")
 async def root(request: Request):
     return template.TemplateResponse("home.html", {"request": request})
-
-
 
 # Веб-интерфейс
 @app.get("/register")
@@ -37,11 +39,11 @@ async def register_page(request: Request):
 @app.post("/register")
 async def register_comand(request: Request, username: str = Form(...), email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
     try:
-        userData = UserCreate(username=username, email=email, password=password)
+        user_data = UserCreate(username=username, email=email, password=password) #Валидация данных
     except Exception as e:
         return {"error": str(e)}
 
-    new_user = UserCRUD.create_user(db, userData)
+    new_user = UserCRUD.create_user(db, user_data) #Попытка регистрации
 
     if not new_user:
         print("User already exists")
@@ -57,15 +59,27 @@ async def login_page(request: Request):
 @app.post("/login")
 async def login_command(request: Request, email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db) ):
     try:
-        loginData = UserLogin(email=email, password=password)
+        login_data = UserLogin(email=email, password=password) #Валидация данных
     except Exception as e:
-        return {"error": str(e)}
+        return RedirectResponse(url="/login?error=invalid_credentials", status_code=303)
 
-    user = UserCRUD.login_user(db, loginData)
+
+    user = UserCRUD.login_user(db, login_data) #Попытка логина
     if not user:
-        return {"error": "Invalid credentials"}
+        return RedirectResponse(url="/login?error=invalid_credentials", status_code=303)
 
-    return JSONResponse({"Login Success": "1111"})
+    # Создаем токен
+    access_token = create_access_token(data={"sub": user.username})
+
+    redirect = RedirectResponse(url="/user_page", status_code=303)
+    redirect.set_cookie(key="access_token", value=access_token, httponly=True, max_age= ACCESS_TOKEN_EXPIRE_MINUTES * 60)
+
+    return JSONResponse({"username" : user.username, "email": user.email, "access_token": access_token})
+    #return redirect
+
+
+
+# Проверки
 
 
 
