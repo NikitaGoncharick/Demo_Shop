@@ -115,14 +115,15 @@
       padding: 12px 24px;
       font-weight: 600;
         color: white;
-      width: 100%;
+      width: 100%; /* цвет тектса внутри элемента */
       margin-top: 10px;
       transition: all 0.3s;
     }
 
     .btn-register:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(111, 75, 216, 0.25);
+      box-shadow: 0 8px 20px rgba(198, 184, 253, 0.25);
+         color: #ffffff; /* текст при наведении */
     }
 
     .divider {
@@ -236,36 +237,21 @@
     <div class="container">
       <div class="registration-card">
         <div class="registration-header">
-          <h2 class="mb-2">Create account</h2>
-          <p class="mb-0">Join the Device Center</p>
+          <h2 class="mb-2">LOG IN</h2>
         </div>
 
         <div class="registration-body">
           <form id="registrationForm">
-            <div class="row mb-3">
-              <div class="col-md-6">
-                <label for="firstName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="firstName" placeholder="Введите ваше имя" required>
-              </div>
-              <div class="col-md-6">
-                <label for="lastName" class="form-label">Surname</label>
-                <input type="text" class="form-control" id="lastName" placeholder="Введите вашу фамилию" required>
-              </div>
-            </div>
+
 
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" placeholder="example@mail.com" required>
-            </div>
-
-            <div class="mb-3">
-              <label for="phone" class="form-label">Telephone</label>
-              <input type="tel" class="form-control" id="phone" placeholder="+7 (999) 999-99-99">
+              <input type="email" class="form-control" id="email" placeholder="Email" required>
             </div>
 
             <div class="mb-3 password-container">
               <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Создайте надежный пароль" required>
+              <input type="password" class="form-control" id="password" placeholder="Press Password" required>
               <button type="button" class="password-toggle" id="togglePassword">
                 <i class="bi bi-eye"></i>
               </button>
@@ -273,21 +259,7 @@
 
 
 
-            <div class="mb-3 form-check">
-              <input class="form-check-input" type="checkbox" id="agreeTerms" required>
-              <label class="form-check-label" for="agreeTerms">
-                I agree with <a href="#" style="color: var(--accent);">terms of use</a> & <a href="#" style="color: var(--accent);">Privacy Policy</a>
-              </label>
-            </div>
-
-            <div class="mb-3 form-check">
-              <input class="form-check-input" type="checkbox" id="newsletter">
-              <label class="form-check-label" for="newsletter">
-                Subscribe to the newsletter about new products and promotions
-              </label>
-            </div>
-
-            <button type="submit" class="btn btn-register">Register</button>
+            <button type="submit" class="btn btn-register">Login</button>
 
             <div class="divider">
               <span class="divider-text">or log in via</span>
