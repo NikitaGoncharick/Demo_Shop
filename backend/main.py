@@ -1,7 +1,9 @@
 from tempfile import template
 
 import uvicorn
-from schemas import UserCreate
+from starlette.responses import HTMLResponse, JSONResponse
+
+from schemas import UserCreate, UserLogin
 from crud import UserCRUD
 from fastapi import FastAPI, Form
 from fastapi.templating import Jinja2Templates
@@ -26,8 +28,14 @@ async def root(request: Request):
     return template.TemplateResponse("home.html", {"request": request})
 
 
+
+# Веб-интерфейс
+@app.get("/register")
+async def register_page(request: Request):
+    return template.TemplateResponse("register.html", {"request": request})
+
 @app.post("/register")
-async def register(request: Request, username: str = Form(...), email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
+async def register_comand(request: Request, username: str = Form(...), email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
     try:
         userData = UserCreate(username=username, email=email, password=password)
     except Exception as e:
@@ -38,7 +46,26 @@ async def register(request: Request, username: str = Form(...), email: str = For
     if not new_user:
         print("User already exists")
 
-    return "User created successfully"
+    return JSONResponse({"User created successfully": "1111"})
+
+
+# Веб-интерфейс
+@app.get("/login")
+async def login_page(request: Request):
+    return template.TemplateResponse("login.html", {"request": request})
+
+@app.post("/login")
+async def login_command(request: Request, email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db) ):
+    try:
+        loginData = UserLogin(email=email, password=password)
+    except Exception as e:
+        return {"error": str(e)}
+
+    user = UserCRUD.login_user(db, loginData)
+    if not user:
+        return {"error": "Invalid credentials"}
+
+    return JSONResponse({"Login Success": "1111"})
 
 
 

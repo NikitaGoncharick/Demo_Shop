@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from models import User
-from schemas import UserCreate
+from schemas import UserCreate, UserLogin
 
 class UserCRUD:
 
@@ -18,3 +18,13 @@ class UserCRUD:
 
         print("User created successfully")
         return new_user
+
+    @staticmethod
+    def login_user(db: Session, user: UserLogin):
+        user = db.query(User).filter(User.email == user.email).first()
+        if user and user.password == user.password:
+            print("User logged in successfully")
+            return user
+        else:
+            print("Invalid Data")
+            return None
