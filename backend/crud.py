@@ -38,9 +38,15 @@ class UserCRUD:
 class ProductCRUD:
 
     @staticmethod
-    def create_product(db: Session, product: ProductCreate):
-        db.add(product)
+    def create_product(db: Session, product_data: ProductCreate):
+        db_product = Product(
+            name=product_data.name,
+            price=product_data.price,
+            quantity=product_data.quantity
+        )
+        db.add(db_product)
         db.commit()
-        db.refresh(product)
-        return product
+        db.refresh(db_product)
+
+        return db_product
 

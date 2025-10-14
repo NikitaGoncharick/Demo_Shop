@@ -124,7 +124,7 @@ async def add_new_product(name: str = Form(...), price: float = Form(...), quant
     if not new_product:
         return {"error": "Error creating product"}
 
-    return JSONResponse({"Product created successfully"})
+    return JSONResponse({"message": "Product created successfully"})
 
 
 
