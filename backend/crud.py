@@ -2,8 +2,8 @@ from symtable import Class
 
 from sqlalchemy.orm import Session
 
-from models import User
-from schemas import UserCreate, UserLogin, Product
+from models import User, Product
+from schemas import UserCreate, UserLogin, ProductCreate
 
 class UserCRUD:
 
@@ -38,7 +38,7 @@ class UserCRUD:
 class ProductCRUD:
 
     @staticmethod
-    def create_product(db: Session, product: Product):
+    def create_product(db: Session, product: ProductCreate):
         db.add(product)
         db.commit()
         db.refresh(product)

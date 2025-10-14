@@ -2,8 +2,6 @@ from os import access
 from tempfile import template
 
 import uvicorn
-from schemas import UserCreate, UserLogin
-from crud import UserCRUD
 from fastapi import FastAPI, Form, HTTPException, status, requests
 from fastapi.responses import RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
@@ -14,8 +12,8 @@ from sqlalchemy import text
 from pydantic import ValidationError
 
 from jose import jwt, JWTError
-
-
+from crud import UserCRUD, ProductCRUD
+from schemas import UserCreate, UserLogin, ProductCreate
 from database import engine, get_db
 from auth import create_access_token, decode_token
 from config import  ACCESS_TOKEN_EXPIRE_MINUTES, SECRET_KEY, ALGORITHM
@@ -116,9 +114,17 @@ async def admin_dashboard(request: Request, admin_user: str = Depends(require_ad
 
 @app.post("/api/add_product")
 async def add_new_product(name: str = Form(...), price: float = Form(...), quantity: int = Form(...), admin_user: str = Depends(require_admin), db: Session = Depends(get_db)):
-    print(name, price, quantity)
 
-    return JSONResponse({"Product added successfully": "1111"})
+    try:
+        product_data = ProductCreate(name=name, price=price, quantity=quantity) #Валидация данных
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=400)
+
+    new_product = ProductCRUD.create_product(db, product_data)
+    if not new_product:
+        return {"error": "Error creating product"}
+
+    return JSONResponse({"Product created successfully"})
 
 
 
