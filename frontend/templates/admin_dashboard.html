@@ -223,7 +223,7 @@
             <th>Price</th>
             <th>Quantity</th>
             <th>Description</th>
-            <th>Status</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -236,7 +236,7 @@
               <td>${{ product.price }}</td>
               <td>{{ product.quantity }}</td>
               <td>—</td>
-              <td><span class="status completed">Active</span></td>
+              <td><a href="#" class="text-primary edit-link">Edit</a></td>
             </tr>
           {% endfor %}
         </tbody>
