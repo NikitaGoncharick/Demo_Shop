@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sample Submissions | Med. Pharma Analytics Hub</title>
+  <title>All Products | Med. Pharma Analytics Hub</title>
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -111,7 +111,6 @@
       background-color: #0b5ed7;
     }
 
-    /* === FILTERS === */
     .filter-card {
       background-color: #fff;
       border: 1px solid var(--border-color);
@@ -120,12 +119,6 @@
       margin-bottom: 1.5rem;
     }
 
-    .filter-card .btn-outline-secondary {
-      border-radius: 20px;
-      padding: 6px 14px;
-    }
-
-    /* === TABLE === */
     .table-card {
       background-color: #fff;
       border: 1px solid var(--border-color);
@@ -141,20 +134,9 @@
       font-weight: 500;
     }
 
-    .status.completed {
-      background-color: rgba(25, 135, 84, 0.15);
-      color: #198754;
-    }
-
-    .status.booked {
-      background-color: rgba(13, 110, 253, 0.15);
-      color: #0d6efd;
-    }
-
-    .status.unknown {
-      background-color: rgba(108, 117, 125, 0.15);
-      color: #6c757d;
-    }
+    .status.completed { background-color: rgba(25, 135, 84, 0.15); color: #198754; }
+    .status.booked { background-color: rgba(13, 110, 253, 0.15); color: #0d6efd; }
+    .status.unknown { background-color: rgba(108, 117, 125, 0.15); color: #6c757d; }
 
     @media (max-width: 992px) {
       .sidebar {
@@ -181,12 +163,10 @@
     <div class="section-title">Boards</div>
     <nav class="nav flex-column">
       <a class="nav-link" href="#"><i class="bi bi-speedometer2"></i> Dashboard</a>
-      <a class="nav-link active" href="#"><i class="bi bi-folder2"></i> Sample submissions</a>
+      <a class="nav-link active" href="#"><i class="bi bi-folder2"></i> All Products</a>
       <a class="nav-link" href="#"><i class="bi bi-graph-up"></i> Results</a>
-      <a class="nav-link" href="#"><i class="bi bi-receipt"></i> Quotes <span class="badge bg-secondary ms-auto">5</span></a>
+      <a class="nav-link" href="#"><i class="bi bi-receipt"></i> Orders <span class="badge bg-secondary ms-auto">5</span></a>
       <a class="nav-link" href="#"><i class="bi bi-file-earmark-text"></i> Invoices</a>
-      <a class="nav-link" href="#"><i class="bi bi-bar-chart"></i> Trending <span class="badge bg-secondary ms-auto">2</span></a>
-      <a class="nav-link" href="#"><i class="bi bi-plus-circle"></i> Sample registration</a>
     </nav>
 
     <div class="section-title">Other</div>
@@ -209,8 +189,7 @@
   <!-- Main content -->
   <main class="main-content">
     <div class="top-bar">
-      <h4 class="fw-bold mb-0">Sample submissions</h4>
-      <button class="btn-sample"><i class="bi bi-plus-lg me-1"></i> Sample registration</button>
+      <h4 class="fw-bold mb-0">All Products</h4>
     </div>
 
     <!-- Filters -->
@@ -218,14 +197,8 @@
       <div class="d-flex flex-wrap align-items-center gap-2">
         <div class="form-check me-3">
           <input class="form-check-input" type="checkbox" id="scope">
-          <label class="form-check-label" for="scope">Show only out of scope</label>
+          <label class="form-check-label" for="scope">Show only active</label>
         </div>
-
-        <button class="btn btn-outline-secondary btn-sm">Job number</button>
-        <button class="btn btn-outline-secondary btn-sm">Due Date</button>
-        <button class="btn btn-outline-secondary btn-sm">Start date</button>
-        <button class="btn btn-outline-secondary btn-sm">Lab order number</button>
-        <button class="btn btn-outline-secondary btn-sm">Book in date</button>
 
         <div class="ms-auto d-flex align-items-center gap-3">
           <a href="#" class="text-decoration-none text-muted">Clear All</a>
@@ -237,37 +210,71 @@
     <!-- Table -->
     <div class="table-card table-responsive">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <h6 class="mb-0 fw-semibold">Lab orders <span class="text-muted">(24 items in total)</span></h6>
-        <div class="btn-group">
-          <button class="btn btn-outline-secondary btn-sm active">By order</button>
-          <button class="btn btn-outline-secondary btn-sm">By sample</button>
-        </div>
+        <h6 class="mb-0 fw-semibold">All products <span class="text-muted">(24 items in total)</span></h6>
+        <button class="btn-sample" data-bs-toggle="modal" data-bs-target="#addProductModal">
+          <i class="bi bi-plus-lg me-1"></i> Add Product
+        </button>
       </div>
 
       <table class="table align-middle">
         <thead>
           <tr class="text-muted">
-            <th>Lab order number</th>
-            <th>Book in date</th>
-            <th>Summary</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Description</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>36-035628</td><td>Feb 3, 2025</td><td>1 sample: ObjectNotFound</td><td><span class="status completed">Completed</span></td></tr>
-          <tr><td>36-035627</td><td>Feb 2, 2025</td><td>2 samples: Paprika</td><td><span class="status booked">Booked in</span></td></tr>
-          <tr><td>35-087456</td><td>Feb 2, 2025</td><td>4 samples: Kondensmilch</td><td><span class="status unknown">Unknown</span></td></tr>
-          <tr><td>35-035108</td><td>Feb 1, 2025</td><td>8 samples: Pears</td><td><span class="status booked">Booked in</span></td></tr>
-          <tr><td>33-035628</td><td>Jan 31, 2025</td><td>1 sample: Apple</td><td><span class="status completed">Completed</span></td></tr>
-          <tr><td>30-035651</td><td>Jan 30, 2025</td><td>1 sample: Pears</td><td><span class="status booked">Booked in</span></td></tr>
-          <tr><td>28-080968</td><td>Jan 30, 2025</td><td>4 samples: Kondensmilch</td><td><span class="status unknown">Unknown</span></td></tr>
-          <tr><td>28-087444</td><td>Jan 29, 2025</td><td>1 sample: Paprika</td><td><span class="status unknown">Unknown</span></td></tr>
-          <tr><td>28-043190</td><td>Jan 28, 2025</td><td>2 samples: Kondensmilch</td><td><span class="status completed">Completed</span></td></tr>
-          <tr><td>21-043080</td><td>Jan 28, 2025</td><td>1 sample: ObjectNotFound</td><td><span class="status unknown">Unknown</span></td></tr>
+          <tr><td>Vita-C Complex</td><td>$25</td><td>100</td><td>Vitamin C supplement</td><td><span class="status completed">Active</span></td></tr>
         </tbody>
       </table>
     </div>
   </main>
+
+  <!-- Modal: Add Product -->
+  <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 rounded-4">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-semibold" id="addProductModalLabel">
+            <i class="bi bi-box-seam me-2 text-primary"></i> Create Product
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label class="form-label fw-medium">Product Name</label>
+              <input type="text" class="form-control" placeholder="Enter product name" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-medium">Price ($)</label>
+              <input type="number" class="form-control" placeholder="Enter price" min="0" step="0.01" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-medium">Quantity</label>
+              <input type="number" class="form-control" placeholder="Enter quantity" min="1" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-medium">Upload Image</label>
+              <input type="file" class="form-control" accept="image/*">
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-outline-secondary rounded-3" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary rounded-3">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
