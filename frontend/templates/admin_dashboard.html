@@ -1,10 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sample Submissions | Med. Pharma Analytics Hub</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --sidebar-bg: #f8f9fa;
+      --accent: #0d6efd;
+      --text-muted: #6c757d;
+      --border-color: #dee2e6;
+    }
+
+    body {
+      background-color: #f5f7fa;
+      min-height: 100vh;
+      font-family: "Inter", sans-serif;
+    }
+
+    /* === SIDEBAR === */
+    .sidebar {
+      width: 250px;
+      background-color: var(--sidebar-bg);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 1.5rem 1rem;
+    }
+
+    .sidebar h5 {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .sidebar .nav-link {
+      color: #333;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.2s;
+    }
+
+    .sidebar .nav-link.active,
+    .sidebar .nav-link:hover {
+      background-color: var(--accent);
+      color: #fff;
+    }
+
+    .sidebar .section-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .sidebar .user {
+      margin-top: auto;
+      padding: 1rem;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar .user img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* === MAIN === */
+    .main-content {
+      margin-left: 250px;
+      padding: 2rem;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+
+    .btn-sample {
+      background-color: #0d6efd;
+      color: #fff;
+      font-weight: 500;
+      border-radius: 10px;
+      padding: 10px 16px;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-sample:hover {
+      background-color: #0b5ed7;
+    }
+
+    /* === FILTERS === */
+    .filter-card {
+      background-color: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .filter-card .btn-outline-secondary {
+      border-radius: 20px;
+      padding: 6px 14px;
+    }
+
+    /* === TABLE === */
+    .table-card {
+      background-color: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 0.25rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .status.completed {
+      background-color: rgba(25, 135, 84, 0.15);
+      color: #198754;
+    }
+
+    .status.booked {
+      background-color: rgba(13, 110, 253, 0.15);
+      color: #0d6efd;
+    }
+
+    .status.unknown {
+      background-color: rgba(108, 117, 125, 0.15);
+      color: #6c757d;
+    }
+
+    @media (max-width: 992px) {
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        flex-direction: row;
+        overflow-x: auto;
+      }
+      .main-content {
+        margin-left: 0;
+        padding: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h5><i class="bi bi-capsule me-2"></i>Med. Pharma<br>Analytics Hub</h5>
+
+    <div class="section-title">Boards</div>
+    <nav class="nav flex-column">
+      <a class="nav-link" href="#"><i class="bi bi-speedometer2"></i> Dashboard</a>
+      <a class="nav-link active" href="#"><i class="bi bi-folder2"></i> Sample submissions</a>
+      <a class="nav-link" href="#"><i class="bi bi-graph-up"></i> Results</a>
+      <a class="nav-link" href="#"><i class="bi bi-receipt"></i> Quotes <span class="badge bg-secondary ms-auto">5</span></a>
+      <a class="nav-link" href="#"><i class="bi bi-file-earmark-text"></i> Invoices</a>
+      <a class="nav-link" href="#"><i class="bi bi-bar-chart"></i> Trending <span class="badge bg-secondary ms-auto">2</span></a>
+      <a class="nav-link" href="#"><i class="bi bi-plus-circle"></i> Sample registration</a>
+    </nav>
+
+    <div class="section-title">Other</div>
+    <nav class="nav flex-column">
+      <a class="nav-link" href="#"><i class="bi bi-gear"></i> Settings</a>
+      <a class="nav-link" href="#"><i class="bi bi-diagram-3"></i> Integrations</a>
+      <a class="nav-link" href="#"><i class="bi bi-life-preserver"></i> Support</a>
+    </nav>
+
+    <div class="user">
+      <img src="https://i.pravatar.cc/40?img=5" alt="User">
+      <div>
+        <div style="font-weight:600;">Sarah Milley</div>
+        <small class="text-muted">Account</small>
+      </div>
+      <i class="bi bi-chevron-down ms-auto"></i>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-content">
+    <div class="top-bar">
+      <h4 class="fw-bold mb-0">Sample submissions</h4>
+      <button class="btn-sample"><i class="bi bi-plus-lg me-1"></i> Sample registration</button>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-card">
+      <div class="d-flex flex-wrap align-items-center gap-2">
+        <div class="form-check me-3">
+          <input class="form-check-input" type="checkbox" id="scope">
+          <label class="form-check-label" for="scope">Show only out of scope</label>
+        </div>
+
+        <button class="btn btn-outline-secondary btn-sm">Job number</button>
+        <button class="btn btn-outline-secondary btn-sm">Due Date</button>
+        <button class="btn btn-outline-secondary btn-sm">Start date</button>
+        <button class="btn btn-outline-secondary btn-sm">Lab order number</button>
+        <button class="btn btn-outline-secondary btn-sm">Book in date</button>
+
+        <div class="ms-auto d-flex align-items-center gap-3">
+          <a href="#" class="text-decoration-none text-muted">Clear All</a>
+          <a href="#" class="text-decoration-none text-primary fw-medium"><i class="bi bi-plus-lg"></i> Add filter</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-card table-responsive">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h6 class="mb-0 fw-semibold">Lab orders <span class="text-muted">(24 items in total)</span></h6>
+        <div class="btn-group">
+          <button class="btn btn-outline-secondary btn-sm active">By order</button>
+          <button class="btn btn-outline-secondary btn-sm">By sample</button>
+        </div>
+      </div>
+
+      <table class="table align-middle">
+        <thead>
+          <tr class="text-muted">
+            <th>Lab order number</th>
+            <th>Book in date</th>
+            <th>Summary</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>36-035628</td><td>Feb 3, 2025</td><td>1 sample: ObjectNotFound</td><td><span class="status completed">Completed</span></td></tr>
+          <tr><td>36-035627</td><td>Feb 2, 2025</td><td>2 samples: Paprika</td><td><span class="status booked">Booked in</span></td></tr>
+          <tr><td>35-087456</td><td>Feb 2, 2025</td><td>4 samples: Kondensmilch</td><td><span class="status unknown">Unknown</span></td></tr>
+          <tr><td>35-035108</td><td>Feb 1, 2025</td><td>8 samples: Pears</td><td><span class="status booked">Booked in</span></td></tr>
+          <tr><td>33-035628</td><td>Jan 31, 2025</td><td>1 sample: Apple</td><td><span class="status completed">Completed</span></td></tr>
+          <tr><td>30-035651</td><td>Jan 30, 2025</td><td>1 sample: Pears</td><td><span class="status booked">Booked in</span></td></tr>
+          <tr><td>28-080968</td><td>Jan 30, 2025</td><td>4 samples: Kondensmilch</td><td><span class="status unknown">Unknown</span></td></tr>
+          <tr><td>28-087444</td><td>Jan 29, 2025</td><td>1 sample: Paprika</td><td><span class="status unknown">Unknown</span></td></tr>
+          <tr><td>28-043190</td><td>Jan 28, 2025</td><td>2 samples: Kondensmilch</td><td><span class="status completed">Completed</span></td></tr>
+          <tr><td>21-043080</td><td>Jan 28, 2025</td><td>1 sample: ObjectNotFound</td><td><span class="status unknown">Unknown</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

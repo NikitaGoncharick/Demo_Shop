@@ -103,38 +103,16 @@ async def require_admin(username: str = Depends(get_current_user), db: Session =
     admin_status = UserCRUD.check_admin_status(db, username)
     if not admin_status:
         raise HTTPException(status_code=403, detail="No admin permission ")
+
     return username
 
 
 # Администрация, защищенные эндпоинты
 @app.get("/admin/dashboard")
 async def admin_dashboard(request: Request, admin_user: str = Depends(require_admin)):
+        # Блок выполнится только в случае прохождения проверки через Depends
         return template.TemplateResponse("admin_dashboard.html", {"request": request})
 
-
-
-#2. Разные зависимости для проверки ролей
-# Базовая проверка авторизации
-# def check_auth(request: Request):
-#     # проверка JWT токена
-#     return user
-#
-# # Проверка что пользователь - админ
-# def check_admin(user: User = Depends(check_auth)):
-#     if not user.is_admin:
-#         raise HTTPException(403, "Admin access required")
-#     return user
-
-#3. Использование в эндпоинтах
-# Для пользователей
-# @app.get("/shop/cart")
-# async def user_cart(user: User = Depends(check_auth)):
-#     return {"cart": user.cart}
-#
-# # Для админов
-# @app.get("/admin/dashboard")
-# async def admin_dashboard(admin: User = Depends(check_admin)):
-#     return {"stats": "admin_data"}
 
 
 
