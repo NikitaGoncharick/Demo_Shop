@@ -227,7 +227,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>Vita-C Complex</td><td>$25</td><td>100</td><td>Vitamin C supplement</td><td><span class="status completed">Active</span></td></tr>
+            <!-- <tr> — table row (строка таблицы). -->
+            <!-- <td> —  table data (ячейка таблицы). -->
+          <!--<tr><td>Vita-C Complex</td><td>$25</td><td>100</td><td>Vitamin C supplement</td><td><span class="status completed">Active</span></td></tr> -->
+            {% for product in products %}
+            <tr>
+              <td>{{ product.name }}</td>
+              <td>${{ product.price }}</td>
+              <td>{{ product.quantity }}</td>
+              <td>—</td>
+              <td><span class="status completed">Active</span></td>
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>

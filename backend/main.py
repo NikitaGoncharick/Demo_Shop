@@ -80,6 +80,11 @@ async def login_command(email: str = Form(...), password: str = Form(...), db: S
     return redirect
 
 
+@app.get("/total_products")
+async def total_products(db: Session = Depends(get_db)):
+    products = ProductCRUD.get_all_products(db)
+    return products
+
 
 # Проверки
 # ✅ Зависимость для получения текущего пользователя
@@ -108,9 +113,12 @@ async def require_admin(username: str = Depends(get_current_user), db: Session =
 
 # Администрация, защищенные эндпоинты
 @app.get("/admin/dashboard")
-async def admin_dashboard(request: Request, admin_user: str = Depends(require_admin)):
-        # Блок выполнится только в случае прохождения проверки через Depends
-        return template.TemplateResponse("admin_dashboard.html", {"request": request})
+async def admin_dashboard(request: Request, db: Session = Depends(get_db) ,admin_user: str = Depends(require_admin)):
+       products = ProductCRUD.get_all_products(db)
+       return template.TemplateResponse("admin_dashboard.html", {
+           "request": request,
+           "products": products
+       })
 
 @app.post("/api/add_product")
 async def add_new_product(name: str = Form(...), price: float = Form(...), quantity: int = Form(...), admin_user: str = Depends(require_admin), db: Session = Depends(get_db)):

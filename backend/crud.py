@@ -50,3 +50,19 @@ class ProductCRUD:
 
         return db_product
 
+    @staticmethod
+    def get_all_products(db: Session):
+
+        all_products = db.query(Product).all()
+        products_data = []
+
+        for product in all_products:
+            products_data.append({
+                "id": product.id,
+                "name": product.name,
+                "price": product.price,
+                "quantity": product.quantity
+            })
+
+        return products_data
+
