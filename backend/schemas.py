@@ -11,3 +11,9 @@ class UserLogin(BaseModel):
 
 class UserStatus(BaseModel):
     status: str
+
+class Product(BaseModel):
+    name: str
+    price: float
+    quantity: int
+    description: str

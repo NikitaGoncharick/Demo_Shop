@@ -54,7 +54,7 @@
     }
 
     /* Registration Form */
-    .registration-section {
+    .login-section {
       background: linear-gradient(180deg, #f6f5fb 0%, #ffffff 100%);
       padding: 60px 0;
       min-height: calc(100vh - 200px);
@@ -62,7 +62,7 @@
       align-items: center;
     }
 
-    .registration-card {
+    .login-card {
       background: var(--card-bg);
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(111, 75, 216, 0.08);
@@ -72,14 +72,14 @@
       margin: 0 auto;
     }
 
-    .registration-header {
+    .login-header {
       background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
       color: white;
       padding: 25px 30px;
       text-align: center;
     }
 
-    .registration-body {
+    .login-body {
       padding: 30px;
     }
 
@@ -232,39 +232,39 @@
     </div>
   </header>
 
-  <!-- Registration Section -->
-  <section class="registration-section">
+  <!-- Login Section -->
+  <section class="login-section">
     <div class="container">
-      <div class="registration-card">
-        <div class="registration-header">
+      <div class="login-card">
+        <div class="login-header">
           <h2 class="mb-2">LOG IN</h2>
         </div>
 
-        <div class="registration-body">
-          <form id="registrationForm">
+        <div class="login-body">
+          <form method="post" action="/login"> <!-- ⚠️ -->
 
 
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" placeholder="Email" required>
+              <input type="text" class="form-control" id="email" name="email" placeholder="Email" required> <!-- ⚠️ -->
             </div>
 
             <div class="mb-3 password-container">
               <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Press Password" required>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Press Password" required> <!-- ⚠️ -->
+
               <button type="button" class="password-toggle" id="togglePassword">
                 <i class="bi bi-eye"></i>
               </button>
             </div>
 
 
-
-            <button type="submit" class="btn btn-register">Login</button>
+            <button type="submit" class="btn btn-register">Login</button>  <!-- ⚠️ -->
+            </form> <!-- ⚠️ -->
 
             <div class="divider">
               <span class="divider-text">or log in via</span>
             </div>
-
             <div class="social-login">
               <button type="button" class="social-btn">
                 <i class="bi bi-google" style="color: #DB4437;"></i>
@@ -276,11 +276,11 @@
                 <i class="bi bi-apple"></i>
               </button>
             </div>
-
             <div class="login-link">
               Already have an account? <a href="login.html">Log in</a>
             </div>
-          </form>
+
+
         </div>
       </div>
     </div>
@@ -307,23 +307,6 @@
       this.querySelector('i').classList.toggle('bi-eye-slash');
     });
 
-    // Form validation
-    document.getElementById('registrationForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
-
-      if (password !== confirmPassword) {
-        alert('Пароли не совпадают!');
-        return;
-      }
-
-      // In a real application, you would send the form data to the server here
-      alert('Регистрация успешно завершена!');
-      // Redirect to login page or home page
-      // window.location.href = 'index.html';
-    });
   </script>
 </body>
 </html>

@@ -1,9 +1,11 @@
+from symtable import Class
+
 from sqlalchemy.orm import Session
+
 from models import User
-from schemas import UserCreate, UserLogin
+from schemas import UserCreate, UserLogin, Product
 
 class UserCRUD:
-
 
     @staticmethod
     def create_user(db: Session, user: UserCreate):
@@ -31,4 +33,14 @@ class UserCRUD:
     def check_admin_status(db: Session, username: str):
         user = db.query(User).filter(User.username == username).first()
         return user is not None and user.is_admin # ✅ Защита от None
+
+
+class ProductCRUD:
+
+    @staticmethod
+    def create_product(db: Session, product: Product):
+        db.add(product)
+        db.commit()
+        db.refresh(product)
+        return product
 

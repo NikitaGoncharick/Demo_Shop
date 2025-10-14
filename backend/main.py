@@ -61,6 +61,7 @@ async def login_page(request: Request):
 
 @app.post("/login")
 async def login_command(email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db) ):
+
     try:
         login_data = UserLogin(email=email, password=password) #Валидация данных
     except Exception as e:
@@ -74,7 +75,7 @@ async def login_command(email: str = Form(...), password: str = Form(...), db: S
     # Создаем токен
     access_token = create_access_token(data={"sub": user.username})
 
-    redirect = RedirectResponse(url="/login", status_code=303)
+    redirect = RedirectResponse(url="/", status_code=303)
     redirect.set_cookie(key="access_token", value=access_token, httponly=True, max_age= ACCESS_TOKEN_EXPIRE_MINUTES * 60)
 
     #return JSONResponse({"username" : user.username, "email": user.email, "access_token": access_token})
@@ -113,6 +114,11 @@ async def admin_dashboard(request: Request, admin_user: str = Depends(require_ad
         # Блок выполнится только в случае прохождения проверки через Depends
         return template.TemplateResponse("admin_dashboard.html", {"request": request})
 
+@app.post("/api/add_product")
+async def add_new_product(name: str = Form(...), price: float = Form(...), quantity: int = Form(...), admin_user: str = Depends(require_admin), db: Session = Depends(get_db)):
+    print(name, price, quantity)
+
+    return JSONResponse({"Product added successfully": "1111"})
 
 
 
