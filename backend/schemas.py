@@ -17,3 +17,10 @@ class ProductCreate(BaseModel):
     price: float
     quantity: int
     description: str
+
+class ProductEdit(BaseModel):
+    id: int
+    name: str
+    price: float
+    quantity: int
+    description: str

@@ -13,7 +13,7 @@ from pydantic import ValidationError
 
 from jose import jwt, JWTError
 from crud import UserCRUD, ProductCRUD
-from schemas import UserCreate, UserLogin, ProductCreate
+from schemas import UserCreate, UserLogin, ProductCreate, ProductEdit
 from database import engine, get_db
 from auth import create_access_token, decode_token
 from config import  ACCESS_TOKEN_EXPIRE_MINUTES, SECRET_KEY, ALGORITHM
@@ -132,10 +132,28 @@ async def add_new_product(name: str = Form(...), price: float = Form(...), quant
     if not new_product:
         return {"error": "Error creating product"}
 
-    return JSONResponse({"message": "Product created successfully"})
+    return RedirectResponse(url="/admin/dashboard", status_code=303)
 
+@app.post("/api/edit_product")
+async def edit_product(prod_id: int = Form(...), name: str = Form(...), price: float = Form(...), quantity: int = Form(...), description: str = Form(...) ,admin_user: str = Depends(require_admin), db: Session = Depends(get_db)):
+    try:
+        product_data = ProductEdit(id=prod_id, name=name, price=price, quantity=quantity, description=description)
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=400)
 
+    updated_product = ProductCRUD.edit_product(db, product_data)
+    if not updated_product:
+        return {"error": "Error editing product"}
 
+    return RedirectResponse(url="/admin/dashboard", status_code=303)
+
+@app.post("/api/delete_product")
+async def delete_product(product_id: int, admin_user: str = Depends(require_admin), db: Session = Depends(get_db)):
+    deleted_product = ProductCRUD.delete_product(db, product_id)
+    if not deleted_product:
+        return {"error": "Error deleting product"}
+
+    return RedirectResponse(url="/admin/dashboard", status_code=303)
 
 
 

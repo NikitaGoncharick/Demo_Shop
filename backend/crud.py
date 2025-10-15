@@ -3,7 +3,7 @@ from symtable import Class
 from sqlalchemy.orm import Session
 
 from models import User, Product
-from schemas import UserCreate, UserLogin, ProductCreate
+from schemas import UserCreate, UserLogin, ProductCreate, ProductEdit
 
 class UserCRUD:
 
@@ -67,4 +67,30 @@ class ProductCRUD:
             })
 
         return products_data
+
+    @staticmethod
+    def edit_product(db: Session, product_data: ProductEdit):
+        product = db.query(Product).filter(Product.id == product_data.id).first()
+        if product:
+            product.name = product_data.name
+            product.price = product_data.price
+            product.quantity = product_data.quantity
+            product.description = product_data.description
+
+            db.commit()
+            db.refresh(product)
+            return product
+        else:
+            return None
+
+    @staticmethod
+    def delete_product(db: Session, product_id: int):
+        product = db.query(Product).filter(Product.id == product_id).first()
+        if product:
+            db.delete(product)
+            db.commit()
+            return True
+        else:
+            return False
+
 
