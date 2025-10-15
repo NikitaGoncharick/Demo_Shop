@@ -339,61 +339,30 @@
           <h5 class="mb-3">Product Results <small class="text-muted">1001 products</small></h5>
 
           <!-- Products grid -->
-          <div class="row g-4">
-            <!-- Product 1 -->
-            <div class="col-12 col-sm-6 col-md-4">
-              <div class="product-card h-100">
-                <div class="d-flex justify-content-between align-items-start">
-                  <div style="font-weight:600">Modern Headphone</div>
-                  <div class="fav"><i class="bi bi-heart"></i></div>
-                </div>
-                <div class="product-img my-2">
-                  <img src="https://images.unsplash.com/photo-1518444026911-3d6b7b2d7b80?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=0" alt="" style="max-height:100%;width:auto;">
-                </div>
-                <p class="text-muted" style="font-size:.85rem">High-end headphones with advanced features like noise cancellation.</p>
-                <div class="price-row">
-                  <div class="price">$250</div>
-                  <button class="circle-btn"><i class="bi bi-plus-lg"></i></button>
-                </div>
-              </div>
-            </div>
+            <div class="row g-4">
+              {% for product in products %}
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="product-card h-100">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <div style="font-weight:600">{{ product.name }}</div>
+                    <div class="fav"><i class="bi bi-heart"></i></div>
+                  </div>
+                  <div class="product-img my-2">
+                    <img src="/" alt="{{ product.name }}" style="max-height:100%;width:auto;">
+                  </div>
+                  <p class="text-muted" style="font-size:.85rem">{{ product.description }}</p>
+                  <div class="price-row">
+                    <div class="price">${{ "%.2f"|format(product.price) }}</div>
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="text-muted small">Qty: {{ product.quantity }}</span>
+                      <button class="circle-btn"><i class="bi bi-plus-lg"></i></button>
+                    </div>
+                  </div>
 
-            <!-- Product 2 -->
-            <div class="col-12 col-sm-6 col-md-4">
-              <div class="product-card h-100">
-                <div class="d-flex justify-content-between align-items-start">
-                  <div style="font-weight:600">Speaker</div>
-                  <div class="fav"><i class="bi bi-heart"></i></div>
-                </div>
-                <div class="product-img my-2 d-flex align-items-center justify-content-center">
-                  <img src="https://images.unsplash.com/photo-1585386959984-a415522a0f3a?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=0" alt="" style="max-height:100%;width:auto;">
-                </div>
-                <p class="text-muted" style="font-size:.85rem">Portable speaker with clear sound and long battery life.</p>
-                <div class="price-row">
-                  <div class="price">$23</div>
-                  <button class="circle-btn"><i class="bi bi-plus-lg"></i></button>
                 </div>
               </div>
+              {% endfor %}
             </div>
-
-            <!-- Product 3 -->
-            <div class="col-12 col-sm-6 col-md-4">
-              <div class="product-card h-100">
-                <div class="d-flex justify-content-between align-items-start">
-                  <div style="font-weight:600">Keyboard</div>
-                  <div class="fav"><i class="bi bi-heart"></i></div>
-                </div>
-                <div class="product-img my-2 d-flex align-items-center justify-content-center">
-                  <img src="https://images.unsplash.com/photo-1527434001546-66c2e14ad4f6?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=0" alt="" style="max-height:100%;width:auto;">
-                </div>
-                <p class="text-muted" style="font-size:.85rem">Mechanical keyboard with premium switches.</p>
-                <div class="price-row">
-                  <div class="price">$199</div>
-                  <button class="circle-btn"><i class="bi bi-plus-lg"></i></button>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <!-- Pagination -->
           <div class="pagination-wrap text-center my-4">

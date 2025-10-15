@@ -63,6 +63,8 @@ class ProductCRUD:
                 "name": product.name,
                 "price": product.price,
                 "quantity": product.quantity,
+                "category": product.category,
+                "brand": product.brand,
                 "description": product.description
             })
 

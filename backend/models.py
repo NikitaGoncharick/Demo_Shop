@@ -16,6 +16,8 @@ class Product(Base):
     name = Column(String)
     price = Column(Float)
     quantity = Column(Integer)
+    category = Column(String)
+    brand = Column(String)
     description = Column(String)
 
 

@@ -28,8 +28,12 @@ template = Jinja2Templates(directory="../frontend/templates")
 
 
 @app.get("/")
-async def root(request: Request):
-    return template.TemplateResponse("home.html", {"request": request})
+async def root(request: Request, db: Session = Depends(get_db)):
+    products = ProductCRUD.get_all_products(db)
+    return template.TemplateResponse("home.html", {
+        "request": request,
+        "products": products
+    })
 
 # Веб-интерфейс
 @app.get("/register")
@@ -121,10 +125,18 @@ async def admin_dashboard(request: Request, db: Session = Depends(get_db) ,admin
        })
 
 @app.post("/api/add_product")
-async def add_new_product(name: str = Form(...), price: float = Form(...), quantity: int = Form(...), description: str = Form(...) ,admin_user: str = Depends(require_admin), db: Session = Depends(get_db)):
+async def add_new_product(
+        name: str = Form(...),
+        price: float = Form(...),
+        quantity: int = Form(...),
+        category: str = Form(...),
+        brand: str = Form(...) ,
+        description: str = Form(...) ,
+        admin_user: str = Depends(require_admin),
+        db: Session = Depends(get_db)):
 
     try:
-        product_data = ProductCreate(name=name, price=price, quantity=quantity, description=description) #Валидация данных
+        product_data = ProductCreate(name=name, price=price, quantity=quantity, categoty=category, brand=brand, description=description) #Валидация данных
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=400)
 
@@ -134,10 +146,20 @@ async def add_new_product(name: str = Form(...), price: float = Form(...), quant
 
     return RedirectResponse(url="/admin/dashboard", status_code=303)
 
+
 @app.post("/api/edit_product")
-async def edit_product(prod_id: int = Form(...), name: str = Form(...), price: float = Form(...), quantity: int = Form(...), description: str = Form(...) ,admin_user: str = Depends(require_admin), db: Session = Depends(get_db)):
+async def edit_product(
+        prod_id: int = Form(...),
+        name: str = Form(...),
+        price: float = Form(...),
+        quantity: int = Form(...),
+        category: str = Form(...),
+        brand: str = Form(...) ,
+        description: str = Form(...),
+        admin_user: str = Depends(require_admin),
+        db: Session = Depends(get_db)):
     try:
-        product_data = ProductEdit(id=prod_id, name=name, price=price, quantity=quantity, description=description)
+        product_data = ProductEdit(id=prod_id, name=name, price=price, quantity=quantity, categoty=category, brand=brand, description=description)
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=400)
 
