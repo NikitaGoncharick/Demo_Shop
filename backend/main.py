@@ -136,7 +136,7 @@ async def add_new_product(
         db: Session = Depends(get_db)):
 
     try:
-        product_data = ProductCreate(name=name, price=price, quantity=quantity, categoty=category, brand=brand, description=description) #Валидация данных
+        product_data = ProductCreate(name=name, price=price, quantity=quantity, category=category, brand=brand, description=description) #Валидация данных
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=400)
 
@@ -159,7 +159,7 @@ async def edit_product(
         admin_user: str = Depends(require_admin),
         db: Session = Depends(get_db)):
     try:
-        product_data = ProductEdit(id=prod_id, name=name, price=price, quantity=quantity, categoty=category, brand=brand, description=description)
+        product_data = ProductEdit(id=prod_id, name=name, price=price, quantity=quantity, category=category, brand=brand, description=description)
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=400)
 
