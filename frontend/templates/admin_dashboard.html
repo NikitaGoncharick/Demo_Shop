@@ -233,7 +233,7 @@
             {% for product in products %}
             <tr>
               <td>{{ product.name }}</td>
-              <td>${{ product.price }}</td>
+              <td>{{ product.price }}$</td>
               <td>{{ product.quantity }}</td>
               <td>{{ product.description }}</td>
               <td><a href="#" class="text-primary edit-link" data-bs-toggle="modal" data-bs-target="#EditProductModal" data-product-id="{{ product.id }}">Edit</a></td>
