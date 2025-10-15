@@ -130,7 +130,7 @@ async def add_new_product(
         price: float = Form(...),
         quantity: int = Form(...),
         category: str = Form(...),
-        brand: str = Form(...) ,
+        brand: str = Form(...),
         description: str = Form(...) ,
         admin_user: str = Depends(require_admin),
         db: Session = Depends(get_db)):

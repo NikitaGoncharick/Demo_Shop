@@ -16,6 +16,8 @@ class ProductCreate(BaseModel):
     name: str
     price: float
     quantity: int
+    category: str
+    brand: str
     description: str
 
 class ProductEdit(BaseModel):

@@ -43,6 +43,8 @@ class ProductCRUD:
             name=product_data.name,
             price=product_data.price,
             quantity=product_data.quantity,
+            category=product_data.category,
+            brand=product_data.brand,
             description=product_data.description,
         )
         db.add(db_product)
@@ -77,6 +79,8 @@ class ProductCRUD:
             product.name = product_data.name
             product.price = product_data.price
             product.quantity = product_data.quantity
+            product.category = product_data.category
+            product.brand = product_data.brand
             product.description = product_data.description
 
             db.commit()
